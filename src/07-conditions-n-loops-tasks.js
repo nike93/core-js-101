@@ -156,8 +156,10 @@ function doRectanglesOverlap(rect1, rect2) {
  *   { center: { x:0, y:0 }, radius:10 },  { x:10, y:10 }   => false
  *
  */
-function isInsideCircle(/* circle, point */) {
-  throw new Error('Not implemented');
+function isInsideCircle(circle, point) {
+  const xLine = point.x - circle.center.x;
+  const yLine = point.y - circle.center.y;
+  return (xLine ** 2 + yLine ** 2) ** 0.5 < circle.radius;
 }
 
 /**
@@ -260,8 +262,22 @@ function reverseInteger(num) {
  *   5436468789016589 => false
  *   4916123456789012 => false
  */
-function isCreditCardNumber(/* ccn */) {
-  throw new Error('Not implemented');
+function isCreditCardNumber(ccn) {
+  const reverseArr = ccn.toString().split('').reverse();
+  let res = 0;
+
+  for (let i = 0; i < reverseArr.length; i += 1) {
+    let number = Number(reverseArr[i]);
+    if (i % 2 !== 0) {
+      number *= 2;
+      if (number > 9) {
+        number -= 9;
+      }
+    }
+    res += number;
+  }
+
+  return res % 10 === 0;
 }
 
 /**
@@ -278,8 +294,13 @@ function isCreditCardNumber(/* ccn */) {
  *   10000 ( 1+0+0+0+0 = 1 ) => 1
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
-function getDigitalRoot(/* num */) {
-  throw new Error('Not implemented');
+function getDigitalRoot(num) {
+  const res = num.toString().split('').reduce((sum, val) => +sum + +val);
+  if (res > 9) {
+    return getDigitalRoot(res);
+  }
+
+  return res;
 }
 
 /**
@@ -303,8 +324,15 @@ function getDigitalRoot(/* num */) {
  *   '{)' = false
  *   '{[(<{[]}>)]}' = true
  */
-function isBracketsBalanced(/* str */) {
-  throw new Error('Not implemented');
+function isBracketsBalanced(str) {
+  let string = str;
+  while (string.includes('[]') || string.includes('()') || string.includes('{}') || string.includes('<>')) {
+    string = string.replace('[]', '');
+    string = string.replace('()', '');
+    string = string.replace('{}', '');
+    string = string.replace('<>', '');
+  }
+  return string.length < 1;
 }
 
 /**
@@ -327,8 +355,8 @@ function isBracketsBalanced(/* str */) {
  *    365, 4  => '11231'
  *    365, 10 => '365'
  */
-function toNaryString(/* num, n */) {
-  throw new Error('Not implemented');
+function toNaryString(num, n) {
+  return num.toString(n);
 }
 
 /**
